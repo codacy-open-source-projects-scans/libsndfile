@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.1..3.18)
+cmake_minimum_required (VERSION 3.5..3.26)
 
 # MSVC runtime library flags are selected by an abstraction, CMake >= 3.15
 # This policy still need to be set even with cmake_minimum_required() command above.
@@ -8,10 +8,12 @@ if (POLICY CMP0091)
 		return ()
 	endif ()
 
-	if (DEFINED CMAKE_MSVC_RUNTIME_LIBRARY)
-		cmake_policy (SET CMP0091 NEW)
-	else ()
-		cmake_policy (SET CMP0091 OLD)
+	if (CMAKE_VERSION VERSION_LESS 3.18)
+		if (DEFINED CMAKE_MSVC_RUNTIME_LIBRARY)
+			cmake_policy (SET CMP0091 NEW)
+		else ()
+			cmake_policy (SET CMP0091 OLD)
+		endif ()
 	endif ()
 endif ()
 
